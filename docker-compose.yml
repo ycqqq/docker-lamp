@@ -1,0 +1,47 @@
+version: "3"
+services:
+  apache:
+    build: ./apache
+    volumes: 
+      - ./apache/www/:/var/www
+      - ./apache/logs/:/usr/local/apache2/logs
+    ports:
+      - "8080:80"
+    container_name: httpd
+    depends_on:
+      - php
+    networks:
+      - default
+  php:
+    build: ./php
+    volumes:
+      - ./apache/www/:/var/www
+    container_name: fpm
+    expose:
+      - "9000"
+    networks: 
+      - default
+  mysql: 
+    build: ./mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    container_name: mysql
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql/data/:/var/lib/mysql/
+      - ./mysql/logs/:/var/log/mysql/
+    networks:
+      - default
+  redis:
+    build: ./redis
+    volumes:
+      - ./redis/data/:/data/
+    container_name: redis
+    ports:
+      - "6666:6379"
+    networks:
+      - default
+networks:
+  default:
+    driver: "bridge"
