@@ -1,21 +1,32 @@
 version: "3"
 services:
-  apache:
-    build: ./apache
+  # apache:
+  #   build: ./apache
+  #   volumes: 
+  #     - ./apache/www/:/var/www
+  #     - ./apache/logs/:/usr/local/apache2/logs
+  #   ports:
+  #     - "8080:80"
+  #   container_name: httpd
+  #   depends_on:
+  #     - php
+  #   networks:
+  #     - default
+  nginx:
+    build: ./nginx
     volumes: 
-      - ./apache/www/:/var/www
-      - ./apache/logs/:/usr/local/apache2/logs
+       - ./nginx/html:/var/www/html
+    container_name: mynginx
     ports:
       - "8080:80"
-    container_name: httpd
     depends_on:
-      - php
-    networks:
+     - php
+    networks: 
       - default
   php:
     build: ./php
     volumes:
-      - ./apache/www/:/var/www
+      - ./nginx/html:/var/www/html
     container_name: fpm
     expose:
       - "9000"
