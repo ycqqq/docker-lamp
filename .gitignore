@@ -1,5 +1,5 @@
 .DS_Store
-./mongo/data/
-./mysql/data/
-./mysql/logs/
-./redis/data/
+mongo/data
+mysql/data
+mysql/logs
+redis/data
