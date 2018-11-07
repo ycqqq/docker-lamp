@@ -44,15 +44,15 @@ services:
       - ./mysql/logs/:/var/log/mysql/
     networks:
       - default
-  redis:
-    build: ./redis
-    volumes:
-      - ./redis/data/:/data/
-    container_name: redis
-    ports:
-      - "6379:6379"
-    networks:
-      - default
+  #redis:
+  #  build: ./redis
+  #  volumes:
+  #    - ./redis/data/:/data/
+  #  container_name: redis
+  #  ports:
+  #    - "6379:6379"
+  #  networks:
+  #    - default
   mongo:
     image: mongo:3.6.2
     container_name: mongo
@@ -75,6 +75,15 @@ services:
       - RABBITMQ_DEFAULT_PASS=qyc
     networks:
       - default
+  redis-cluster:
+    build: ./redis-cluster
+    environment:
+     IP: 0.0.0.0
+    container_name: redis-cluster
+    ports:
+        - '7000-7007:7000-7007'
+    networks:
+        - default
 networks:
   default:
     driver: "bridge"
